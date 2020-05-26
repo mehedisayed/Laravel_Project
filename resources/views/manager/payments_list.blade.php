@@ -1,12 +1,10 @@
-@extends('layout/admin')
+@extends('layout/manager')
 
 
 @section('title')
 Payments List
 @endsection
 @section('content')
-
-<a href="{{route('admin.genaratepaymentlist')}}" class="btn btn-outline-info mb-2"><i class="fa fa-plus" aria-hidden="true"></i> Genarate</a>
 
 <div class="table-responsive">
 
@@ -34,7 +32,7 @@ Payments List
 			</td>
 			@else
 			<td>
-			<a href="{{route('admin.editpayment',$payment->pid)}}" class="btn btn-outline-dark"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
+			<a href="{{route('manager.editpayment',$payment->pid)}}" class="btn btn-outline-dark"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
 			</td>
 			@endif
 		</tr>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 16, 2020 at 08:01 AM
+-- Generation Time: May 26, 2020 at 07:10 PM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.8
 
@@ -114,7 +114,7 @@ CREATE TABLE `orderlog` (
 INSERT INTO `orderlog` (`olid`, `uid`, `date`, `status`) VALUES
 (1, 2, '2020-05-14', 'Payment Pendding'),
 (2, 2, '2020-05-06', 'Shipping Ready'),
-(3, 2, '2020-05-09', 'Payment Pendding'),
+(3, 2, '2020-05-09', 'Shipping Ready'),
 (4, 2, '2020-05-04', 'Payment Pendding'),
 (5, 2, '2020-05-15', 'Completed');
 
@@ -139,7 +139,7 @@ CREATE TABLE `payment` (
 INSERT INTO `payment` (`pid`, `date`, `amount`, `status`, `olid`) VALUES
 (1, '2020-05-14', 10000, 'Pendding', 1),
 (2, '2020-05-14', 10000, 'Completed', 2),
-(3, '2020-05-11', 10000, 'Pendding', 3),
+(3, '2020-05-11', 10000, 'Completed', 3),
 (4, '2020-05-15', 10000, 'Pendding', 4),
 (5, '2020-05-14', 10000, 'Completed', 5);
 
@@ -197,7 +197,7 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`uid`, `uname`, `email`, `password`, `phone`, `gender`, `role`, `address`, `status`) VALUES
 (1, 'Mehedi Sayed', 'sayedmehedi@hotmail.com', '12345678', 1731569019, 'Male', 'Admin', 'Dhaka,Bangladesh', 'Active'),
-(2, 'Mehrab', 'sm@gmail.com', '12345678', 1731569019, 'Male', 'Customer', 'Lakshmipur,Bangladesh', 'Active'),
+(2, 'Mehrab', 'mehrab@gmail.com', '12345678', 1731569019, 'Male', 'Customer', 'Lakshmipur,Bangladesh', 'Active'),
 (3, 'Mahbub', 'sm@gmail.com', '12345678', 1629438110, 'Male', 'Manager', 'Dhaka', 'Active'),
 (4, 'Shakill Ahmed', 'shakill@gmail.com', '12345678', 1629438110, 'Male', 'Employee', 'Dhaka', 'Active'),
 (6, 'admin', 'admin@gmail.com', '12345678', 1629438110, 'Male', 'Admin', 'Dhaka', 'Active');

@@ -37,20 +37,15 @@ class loginController extends Controller
                 $req->session()->put('uid', $user->uid);
                    return redirect()->route('admin.profile');
                }
-              else if($user->role=='manager'){
+              else if($user->role=='Manager'){
                 $req->session()->put('role', $user->role);
-                $req->session()->put('uid', $user->id);
-                   return redirect()->route('manager.index');
+                $req->session()->put('uid', $user->uid);
+                   return redirect()->route('manager.profile');
                }
-               else if($user->role=='employee'){
+               else if($user->role=='Employee'){
                 $req->session()->put('role', $user->role);
-                $req->session()->put('uid', $user->id);
-                return redirect()->route('employee.index');
-            }
-            else if($user->role=='customer'){
-                $req->session()->put('uid', $user->id);
-                $req->session()->put('role', $user->role);
-                return redirect()->route('customer.index');
+                $req->session()->put('uid', $user->uid);
+                return redirect()->route('employee.profile');
             }
                else{
                    return redirect()->route('loginindex');

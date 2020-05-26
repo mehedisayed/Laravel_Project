@@ -68,43 +68,43 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link btn btn-info mb-2" href="{{route('admin.profile')}}"><i class="fa fa-user" aria-hidden="true"></i>
+                <a class="nav-link btn btn-info mb-2" href="{{route('manager.profile')}}"><i class="fa fa-user" aria-hidden="true"></i>
                   Profile 
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link btn btn-info mb-2" href="{{route('admin.categorylist')}}"><i class="fa fa-list-alt" aria-hidden="true"></i>
+                <a class="nav-link btn btn-info mb-2" href="{{route('manager.categorylist')}}"><i class="fa fa-list-alt" aria-hidden="true"></i>
                 Product Category
                 </a>
               </li>
               
               <li class="nav-item">
-                <a class="nav-link btn btn-info mb-2" href="{{route('admin.subcategorylist')}}"><i class="fa fa-th-list" aria-hidden="true"></i>
+                <a class="nav-link btn btn-info mb-2" href="{{route('manager.subcategorylist')}}"><i class="fa fa-th-list" aria-hidden="true"></i>
                 Product Sub Category
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link btn btn-info mb-2" href="{{route('admin.itemlist')}}"><i class="fa fa-list-ol" aria-hidden="true"></i>
+                <a class="nav-link btn btn-info mb-2" href="{{route('manager.itemlist')}}"><i class="fa fa-list-ol" aria-hidden="true"></i>
                   Product Item
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link btn btn-info mb-2" href="{{route('admin.workerslist')}}"><i class="fa fa-users" aria-hidden="true"></i>
+                <a class="nav-link btn btn-info mb-2" href="{{route('manager.workerslist')}}"><i class="fa fa-users" aria-hidden="true"></i>
                   Wokers List
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link btn btn-info mb-2" href="{{route('admin.customerslist')}}"><i class="fa fa-users" aria-hidden="true"></i>
+                <a class="nav-link btn btn-info mb-2" href="{{route('manager.customerslist')}}"><i class="fa fa-users" aria-hidden="true"></i>
                   Customer List
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link btn btn-info mb-2" href="{{route('admin.paymentslist')}}"><i class="fa fa-money" aria-hidden="true"></i>
+                <a class="nav-link btn btn-info mb-2" href="{{route('manager.paymentslist')}}"><i class="fa fa-money" aria-hidden="true"></i>
                   Payment List
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link btn btn-info mb-2" href="{{route('admin.orderloglist')}}"><i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                <a class="nav-link btn btn-info mb-2" href="{{route('manager.orderloglist')}}"><i class="fa fa-shopping-cart" aria-hidden="true"></i>
                   Orders
                 </a>
               </li>

@@ -5,36 +5,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Validator;
 use App\User;
-use App\Exports\PaymentExports;
-use App\Exports\OrderExports;
 use Carbon\Carbon;
-use Excel;
 
-class adminController extends Controller
+class managerController extends Controller
 {
     public function profile(Request $req)
     {
        $ur = DB::table('user')
                     ->where('uid',$req->session()->get('uid'))
                     ->first();
-      return view('admin/profile',['user'=>$ur]);
+      return view('manager/profile',['user'=>$ur]);
     } 
-
-    public function payments_list_genarate(Request $req)
-    {
-      return Excel::download(new PaymentExports, 'payment.xlsx');
-    }
-
-    public function orders_list_genarate(Request $req)
-    {
-      return Excel::download(new OrderExports, 'order.xlsx');
-    }
 
     public function category_list(Request $req)
     {
       $categories = DB::table('category')
                     ->get();
-      return view('admin/category_list',['categories'=>$categories]);
+      return view('manager/category_list',['categories'=>$categories]);
     }
 
     public function sub_category_list(Request $req)
@@ -43,7 +30,7 @@ class adminController extends Controller
                     ->join('category', 'subcategory.cid', '=', 'category.cid')
                     ->select('subcategory.*', 'category.cname')
                     ->get();
-      return view('admin/sub_category_list',['subcategories'=>$subcategories]);
+      return view('manager/sub_category_list',['subcategories'=>$subcategories]);
     }
 
     public function item_list(Request $req)
@@ -52,31 +39,15 @@ class adminController extends Controller
                     ->join('subcategory', 'subcategory.scid', '=', 'item.scid')
                     ->select('item.*', 'subcategory.scname')
                     ->get();
-      return view('admin/item_list',['items'=>$items]);
+      return view('manager/item_list',['items'=>$items]);
     } 
 
     public function workers_list(Request $req)
     {
       $users = DB::table('user')
-                    ->where('role','!=','Customer')
+                    ->where('role','=','Employee')
                     ->get();
-      return view('admin/workers_list',['users'=>$users,'page'=>'All']);
-    }
-
-    public function admins_list(Request $req)
-    {
-      $users = DB::table('user')
-                    ->where('role','=','Admin')
-                    ->get();
-      return view('admin/workers_list',['users'=>$users,'page'=>'Admin']);
-    }
-
-    public function managers_list(Request $req)
-    {
-      $users = DB::table('user')
-                    ->where('role','=','Manager')
-                    ->get();
-      return view('admin/workers_list',['users'=>$users,'page'=>'Manager']);
+      return view('manager/workers_list',['users'=>$users,'page'=>'All']);
     }
 
     public function employees_list(Request $req)
@@ -84,14 +55,14 @@ class adminController extends Controller
       $users = DB::table('user')
                     ->where('role','=','Employee')
                     ->get();
-      return view('admin/workers_list',['users'=>$users,'page'=>'Employee']);
+      return view('manager/workers_list',['users'=>$users,'page'=>'Employee']);
     }
 
     public function payments_list(Request $req)
     {
       $payments = DB::table('payment')
                     ->get();
-      return view('admin/payments_list',['payments'=>$payments]);
+      return view('manager/payments_list',['payments'=>$payments]);
     }
 
     public function customers_list(Request $req)
@@ -99,7 +70,7 @@ class adminController extends Controller
       $users = DB::table('user')
                     ->where('role','=','Customer')
                     ->get();
-      return view('admin/customers_list',['users'=>$users]);
+      return view('manager/customers_list',['users'=>$users]);
     }
     
     public function edit_profile(Request $req,$id)
@@ -107,7 +78,7 @@ class adminController extends Controller
       $user = DB::table('user')
                     ->where('uid',$id)
                     ->first();
-      return view('admin/edit_profile',['user'=>$user]);
+      return view('manager/edit_profile',['user'=>$user]);
     }
 
     public function update_profile(Request $req,$id)
@@ -128,7 +99,7 @@ class adminController extends Controller
                 ->with('errors', $validation->errors())
                 ->withInput();
 
-        return redirect()->route('admin.editprofile')
+        return redirect()->route('manager.editprofile')
                         ->with('errors', $validation->errors())
                         ->withInput();
         }
@@ -146,7 +117,7 @@ class adminController extends Controller
                 'address' => $req->address
                 ]
             );
-            return redirect()->route('admin.profile');
+            return redirect()->route('manager.profile');
         }
     }
 
@@ -155,7 +126,7 @@ class adminController extends Controller
       $category = DB::table('category')
                     ->where('cid',$id)
                     ->first();
-      return view('admin/edit_category',['category'=>$category]);
+      return view('manager/edit_category',['category'=>$category]);
     } 
 
     public function update_category(Request $req,$id)
@@ -169,7 +140,7 @@ class adminController extends Controller
                 ->with('errors', $validation->errors())
                 ->withInput();
 
-        return redirect()->route('admin.editcategory')
+        return redirect()->route('manager.editcategory')
                         ->with('errors', $validation->errors())
                         ->withInput();
         }
@@ -182,13 +153,13 @@ class adminController extends Controller
                 'cname' => $req->cname
                 ]
             );
-            return redirect()->route('admin.categorylist');
+            return redirect()->route('manager.categorylist');
         }
     }
 
     public function new_category(Request $req)
     {
-      return view('admin/new_category');
+      return view('manager/new_category');
     }
 
     public function insert_category(Request $req)
@@ -202,7 +173,7 @@ class adminController extends Controller
                 ->with('errors', $validation->errors())
                 ->withInput();
 
-        return redirect()->route('admin.newcategory')
+        return redirect()->route('manager.newcategory')
                         ->with('errors', $validation->errors())
                         ->withInput();
         }
@@ -214,7 +185,7 @@ class adminController extends Controller
                 'cname' => $req->cname
                 ]
             );
-            return redirect()->route('admin.categorylist');
+            return redirect()->route('manager.categorylist');
         }
     }
 
@@ -223,7 +194,7 @@ class adminController extends Controller
       DB::table('category')
               ->where('cid', $id)
               ->delete();
-      return redirect()->route('admin.categorylist');
+      return redirect()->route('manager.categorylist');
     }
 
     public function edit_sub_category(Request $req,$id)
@@ -233,7 +204,7 @@ class adminController extends Controller
                     ->first();
       $categories = DB::table('category')
                     ->get();
-      return view('admin/edit_sub_category',['subcategory'=>$subcategory,'categories'=>$categories]);
+      return view('manager/edit_sub_category',['subcategory'=>$subcategory,'categories'=>$categories]);
     } 
 
     public function update_sub_category(Request $req,$id)
@@ -248,7 +219,7 @@ class adminController extends Controller
                 ->with('errors', $validation->errors())
                 ->withInput();
 
-        return redirect()->route('admin.editsubcategory')
+        return redirect()->route('manager.editsubcategory')
                         ->with('errors', $validation->errors())
                         ->withInput();
         }
@@ -262,7 +233,7 @@ class adminController extends Controller
                 'cid' => $req->cid,
                 ]
             );
-            return redirect()->route('admin.subcategorylist');
+            return redirect()->route('manager.subcategorylist');
         }
     }
 
@@ -270,7 +241,7 @@ class adminController extends Controller
     {
       $categories = DB::table('category')
                     ->get();
-      return view('admin/new_sub_category',['categories'=>$categories]);
+      return view('manager/new_sub_category',['categories'=>$categories]);
     }
 
     public function insert_sub_category(Request $req)
@@ -285,7 +256,7 @@ class adminController extends Controller
                 ->with('errors', $validation->errors())
                 ->withInput();
 
-        return redirect()->route('admin.newsubcategory')
+        return redirect()->route('manager.newsubcategory')
                         ->with('errors', $validation->errors())
                         ->withInput();
         }
@@ -298,7 +269,7 @@ class adminController extends Controller
                 'cid' => $req->cid
                 ]
             );
-            return redirect()->route('admin.subcategorylist');
+            return redirect()->route('manager.subcategorylist');
         }
     }
 
@@ -307,7 +278,7 @@ class adminController extends Controller
       DB::table('subcategory')
               ->where('scid', $id)
               ->delete();
-      return redirect()->route('admin.subcategorylist');
+      return redirect()->route('manager.subcategorylist');
     }
 
     public function edit_item(Request $req,$id)
@@ -317,7 +288,7 @@ class adminController extends Controller
                     ->first();
       $subcategories = DB::table('subcategory')
                     ->get();
-      return view('admin/edit_item',['item'=>$item,'subcategories'=>$subcategories]);
+      return view('manager/edit_item',['item'=>$item,'subcategories'=>$subcategories]);
     } 
 
     public function update_item(Request $req,$id)
@@ -334,7 +305,7 @@ class adminController extends Controller
                 ->with('errors', $validation->errors())
                 ->withInput();
 
-        return redirect()->route('admin.edititem')
+        return redirect()->route('manager.edititem')
                         ->with('errors', $validation->errors())
                         ->withInput();
         }
@@ -350,7 +321,7 @@ class adminController extends Controller
                 'scid' => $req->scid
                 ]
             );
-            return redirect()->route('admin.itemlist');
+            return redirect()->route('manager.itemlist');
         }
     }
 
@@ -358,7 +329,7 @@ class adminController extends Controller
     {
       $subcategories = DB::table('subcategory')
                     ->get();
-      return view('admin/new_item',['subcategories'=>$subcategories]);
+      return view('manager/new_item',['subcategories'=>$subcategories]);
     }
 
     public function insert_item(Request $req)
@@ -375,7 +346,7 @@ class adminController extends Controller
                 ->with('errors', $validation->errors())
                 ->withInput();
 
-        return redirect()->route('admin.newitem')
+        return redirect()->route('manager.newitem')
                         ->with('errors', $validation->errors())
                         ->withInput();
         }
@@ -390,7 +361,7 @@ class adminController extends Controller
                 'scid' => $req->scid,
                 ]
             );
-            return redirect()->route('admin.itemlist');
+            return redirect()->route('manager.itemlist');
         }
     }
 
@@ -399,7 +370,7 @@ class adminController extends Controller
       DB::table('item')
               ->where('iid', $id)
               ->delete();
-      return redirect()->route('admin.itemlist');
+      return redirect()->route('manager.itemlist');
     }
 
     public function edit_worker(Request $req,$id)
@@ -407,7 +378,7 @@ class adminController extends Controller
       $user = DB::table('user')
                     ->where('uid',$id)
                     ->first();
-      return view('admin/edit_worker',['user'=>$user]);
+      return view('manager/edit_worker',['user'=>$user]);
     }
 
     public function update_worker(Request $req,$id)
@@ -430,7 +401,7 @@ class adminController extends Controller
                 ->with('errors', $validation->errors())
                 ->withInput();
 
-        return redirect()->route('admin.editworker')
+        return redirect()->route('manager.editworker')
                         ->with('errors', $validation->errors())
                         ->withInput();
         }
@@ -450,13 +421,13 @@ class adminController extends Controller
                 'status' => $req->status,
                 ]
             );
-            return redirect()->route('admin.workerslist');
+            return redirect()->route('manager.workerslist');
         }
     }
 
     public function new_worker(Request $req)
     {
-      return view('admin/new_worker');
+      return view('manager/new_worker');
     }
 
     public function insert_worker(Request $req)
@@ -479,7 +450,7 @@ class adminController extends Controller
                 ->with('errors', $validation->errors())
                 ->withInput();
 
-        return redirect()->route('admin.newworker')
+        return redirect()->route('manager.newworker')
                         ->with('errors', $validation->errors())
                         ->withInput();
         }
@@ -498,7 +469,7 @@ class adminController extends Controller
                 'status' => $req->status,
                 ]
             );
-            return redirect()->route('admin.workerslist');
+            return redirect()->route('manager.workerslist');
         }
     }
     public function delete_worker(Request $req,$id)
@@ -506,7 +477,7 @@ class adminController extends Controller
       DB::table('user')
               ->where('uid', $id)
               ->delete();
-      return redirect()->route('admin.workerslist');
+      return redirect()->route('manager.workerslist');
     }
 
     public function edit_payment(Request $req,$id)
@@ -514,7 +485,7 @@ class adminController extends Controller
       $payment = DB::table('payment')
                     ->where('pid',$id)
                     ->first();
-      return view('admin/edit_payment',['payment'=>$payment]);
+      return view('manager/edit_payment',['payment'=>$payment]);
     }
     public function update_payment(Request $req,$id)
     {
@@ -527,7 +498,7 @@ class adminController extends Controller
                 ->with('errors', $validation->errors())
                 ->withInput();
 
-        return redirect()->route('admin.editpayment')
+        return redirect()->route('manager.editpayment')
                         ->with('errors', $validation->errors())
                         ->withInput();
         }
@@ -550,7 +521,7 @@ class adminController extends Controller
                 'status' =>"Shipping Ready"
               ]
             );
-            return redirect()->route('admin.paymentslist');
+            return redirect()->route('manager.paymentslist');
         }
     }
 
@@ -558,14 +529,14 @@ class adminController extends Controller
     {
       $orders = DB::table('orderlog')
                     ->get();
-      return view('admin/orderlog_list',['orders'=>$orders]);
+      return view('manager/orderlog_list',['orders'=>$orders]);
     }
     public function edit_order(Request $req,$id)
     {
       $order = DB::table('orderlog')
                     ->where('olid',$id)
                     ->first();
-      return view('admin/edit_orderlog',['order'=>$order]);
+      return view('manager/edit_orderlog',['order'=>$order]);
     }
     public function update_order(Request $req,$id)
     {
@@ -578,7 +549,7 @@ class adminController extends Controller
                 ->with('errors', $validation->errors())
                 ->withInput();
 
-        return redirect()->route('admin.editorder')
+        return redirect()->route('manager.editorder')
                         ->with('errors', $validation->errors())
                         ->withInput();
         }
@@ -591,7 +562,7 @@ class adminController extends Controller
                 'status' =>$req->status
               ]
             );
-            return redirect()->route('admin.orderloglist');
+            return redirect()->route('manager.orderloglist');
         }
     }
 }

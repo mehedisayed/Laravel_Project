@@ -1,11 +1,10 @@
-@extends('layout/admin')
+@extends('layout/manager')
 
 
 @section('title')
 Orders List
 @endsection
 @section('content')
-<a href="{{route('admin.genarateorderlist')}}" class="btn btn-outline-info mb-2"><i class="fa fa-plus" aria-hidden="true"></i> Genarate orderlog</a>
 
 <table class="table table-hover table-striped">
   <thead class="thead-dark">
@@ -26,7 +25,7 @@ Orders List
 			<td>{{$order->status}}</td>
       @if($order->status=="Shipping Ready")
 			<td>
-      <a href="{{route('admin.editorderlog',$order->olid)}}" class="btn btn-outline-dark"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a> 
+      <a href="{{route('manager.editorderlog',$order->olid)}}" class="btn btn-outline-dark"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a> 
 			</td>
       @else
       <td>
